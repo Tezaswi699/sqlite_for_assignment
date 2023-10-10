@@ -1,10 +1,62 @@
  ﻿<?xml version="1.0" encoding="utf-8"?>
-<IDOCTYPE suiteSYSTEM "https://testing.org/testing-1.0.dtd">
-<suite name="Suite">
-  <test thread-count="5" name="Test">
-    <classes>
-	<class name="mavenforjenkins.UITest"/>
-	    
-    </classes>
-    </test>
-</suite>
+name: publish 🚀
+
+on:
+  workflow_dispatch:
+  push:
+   branches:
+   - main
+
+jobs:
+  publish:
+   runs-on:ubuntu-latest
+
+   steps:
+   - uses: actions/checkout@v3
+
+   -name: Setup .NET
+   uses: actions/setup-dotnet@v3
+   with:
+     dotnet-version: '6.0.x'
+
+     - name: Restore
+       run: dotnet restore ./CurrentTimeService.sln
+
+       -name: Build
+        run: dotnet build ./CurrentTimeService.sln --configuration release --no-restore
+
+        -name: Publish
+        run: dotnet publish ./CurrentTimeService.sln --configuration Release --no-build
+
+XML file for maven:-->
+
+<project xmlns="http://maven.apache.org/pom/4.0.0"
+		 xmls:xsi="http://www.w3.org/2001/xmlSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/pom/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelversion>4.0.0</modelversion>
+	<groupId>com.demo</groupId>
+	<artifactId>Demo_Project</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>sqlite_project maven Webapp</name>
+	<url>http://maven.apache.org</url>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.3.1</version>
+			</plugin>
+		</plugins>
+		<finalName>Demo_Project</finalName>
+	</build>
+</project>
